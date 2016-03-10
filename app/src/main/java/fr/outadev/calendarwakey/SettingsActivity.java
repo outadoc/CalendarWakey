@@ -25,6 +25,7 @@ public class SettingsActivity extends AppCompatActivity {
                 .commit();
 
         firstTimeSetupChecks();
+        ApplyNextAlarmReceiver.enable(this);
     }
 
     @Override
@@ -39,8 +40,6 @@ public class SettingsActivity extends AppCompatActivity {
                                 "automatically.")
                         .create()
                         .show();
-            } else {
-                setupDefaultClockApp();
             }
         }
 
@@ -50,13 +49,6 @@ public class SettingsActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
                 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.READ_CALENDAR}, CALENDAR_ACCESS_PERM_REQUEST_CODE);
-        } else {
-            setupDefaultClockApp();
         }
-    }
-
-    public void setupDefaultClockApp() {
-        Intent i = new Intent(AlarmClock.ACTION_SET_ALARM);
-        startActivity(Intent.createChooser(i, "Wake up with..."));
     }
 }

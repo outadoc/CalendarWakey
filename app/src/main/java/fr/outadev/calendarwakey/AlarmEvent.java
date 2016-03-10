@@ -17,7 +17,7 @@ public class AlarmEvent {
         mCalendarId = calendarId;
         mCalendarName = calendarName;
         mName = name;
-        mStartTime = new DateTime(startTime, DateTimeZone.UTC);
+        mStartTime = new DateTime(startTime);
     }
 
     public int getCalendarId() {
