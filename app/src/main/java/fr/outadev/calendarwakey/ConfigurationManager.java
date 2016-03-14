@@ -37,7 +37,7 @@ public class ConfigurationManager {
 
     public LocalTime getAlarmSettingTime() {
         // 22:00
-        return new LocalTime(22, 0);
+        return new LocalTime(20, 0);
     }
 
     public Collection<Integer> getEnabledWeekDays() {
