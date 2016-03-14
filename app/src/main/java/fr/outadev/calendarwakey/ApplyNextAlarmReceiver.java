@@ -31,7 +31,7 @@ public class ApplyNextAlarmReceiver extends BroadcastReceiver {
         ConfigurationManager conf = new ConfigurationManager(context);
 
         Collection<Integer> days = conf.getEnabledWeekDays();
-        if (!days.contains(LocalDate.now().getDayOfWeek())) return;
+        if (!days.contains(LocalDate.now().plusDays(1).getDayOfWeek())) return;
 
         setAlarmFromCalendarEvents(context);
     }
