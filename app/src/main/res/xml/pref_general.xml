@@ -3,7 +3,14 @@
 
     <fr.outadev.calendarwakey.TimePreference
         android:key="pref_alarm_setting_time"
-        android:title="Alarm setting time"
-        android:defaultValue="21:00"/>
+        android:title="Alarm setting time"/>
+
+    <fr.outadev.calendarwakey.TimePreference
+        android:key="pref_min_wakeup_time"
+        android:title="Minimum wake up time"/>
+
+    <fr.outadev.calendarwakey.TimePreference
+        android:key="pref_max_wakeup_time"
+        android:title="Maximum wake up time"/>
 
 </PreferenceScreen>

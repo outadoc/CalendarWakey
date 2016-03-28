@@ -12,7 +12,6 @@ import org.joda.time.format.DateTimeFormat;
 public class PrefsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
 
     public static final String TAG = PrefsFragment.class.getName();
-    private static final String[] timePreferences = new String[]{"pref_alarm_setting_time"};
 
     private ConfigurationManager mConfig;
 
@@ -30,7 +29,7 @@ public class PrefsFragment extends PreferenceFragment implements Preference.OnPr
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
-        for (String key : timePreferences) {
+        for (String key : ConfigurationManager.TIME_PREFERENCES) {
             if (key.equals(preference.getKey())) {
                 preference.setSummary((String)o);
                 break;
@@ -41,14 +40,14 @@ public class PrefsFragment extends PreferenceFragment implements Preference.OnPr
     }
 
     private void setupListeners() {
-        for (String key : timePreferences) {
+        for (String key : ConfigurationManager.TIME_PREFERENCES) {
             Preference pref = findPreference(key);
             pref.setOnPreferenceChangeListener(this);
         }
     }
 
     private void buildSummaries() {
-        for (String key : timePreferences) {
+        for (String key : ConfigurationManager.TIME_PREFERENCES) {
             Preference pref = findPreference(key);
             pref.setSummary(mConfig.getTimeFromPreference(key).toString(DateTimeFormat.shortTime()));
         }

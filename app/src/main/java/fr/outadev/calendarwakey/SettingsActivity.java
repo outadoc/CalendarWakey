@@ -18,6 +18,10 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ConfigurationManager config = new ConfigurationManager(this);
+        config.setDefaultValues();
+
         getFragmentManager()
                 .beginTransaction()
                 .replace(android.R.id.content, PrefsFragment.newInstance())

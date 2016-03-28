@@ -10,9 +10,12 @@ import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 
 import java.io.Serializable;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by outadoc on 2016-03-09.
@@ -22,18 +25,31 @@ public class ConfigurationManager implements Serializable {
     private final Context mContext;
     private final SharedPreferences mPreferences;
 
+    public static final String PREF_ALARM_SETTING_TIME = "pref_alarm_setting_time";
+    public static final String PREF_MIN_WAKEUP_TIME = "pref_min_wakeup_time";
+    public static final String PREF_MAX_WAKEUP_TIME = "pref_max_wakeup_time";
+
+    public static final String[] TIME_PREFERENCES = new String[]{PREF_ALARM_SETTING_TIME, PREF_MIN_WAKEUP_TIME, PREF_MAX_WAKEUP_TIME};
+
+    private static final List<Map.Entry<String, LocalTime>> defaultTimes = new ArrayList<>();
+
+    static {
+        defaultTimes.add(new AbstractMap.SimpleEntry<>(PREF_ALARM_SETTING_TIME, new LocalTime(21, 0)));
+        defaultTimes.add(new AbstractMap.SimpleEntry<>(PREF_MIN_WAKEUP_TIME, new LocalTime(0, 0)));
+        defaultTimes.add(new AbstractMap.SimpleEntry<>(PREF_MAX_WAKEUP_TIME, new LocalTime(11, 0)));
+    }
+
     public ConfigurationManager(Context context) {
         mContext = context;
         mPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
     }
 
     public LocalTime getMinWakeUpTime() {
-        return LocalTime.MIDNIGHT;
+        return getTimeFromPreference(PREF_MIN_WAKEUP_TIME);
     }
 
     public LocalTime getMaxWakeUpTime() {
-        // 11:00 am
-        return new LocalTime(11, 0);
+        return getTimeFromPreference(PREF_MAX_WAKEUP_TIME);
     }
 
     public Duration getPostWakeFreeTime() {
@@ -42,8 +58,7 @@ public class ConfigurationManager implements Serializable {
     }
 
     public LocalTime getAlarmSettingTime() {
-        // 22:00
-        return getTimeFromPreference("pref_alarm_setting_time");
+        return getTimeFromPreference(PREF_ALARM_SETTING_TIME);
     }
 
     public Collection<Integer> getEnabledWeekDays() {
@@ -58,13 +73,22 @@ public class ConfigurationManager implements Serializable {
         return days;
     }
 
-    public LocalTime getTimeFromPreference(String key) {
-        return LocalTime.parse(mPreferences.getString(key, null));
+    public void setDefaultValues() {
+        for (Map.Entry<String, LocalTime> pref : defaultTimes) {
+            if (getTimeFromPreference(pref.getKey()) == null) {
+                saveTimeToPreference(pref.getKey(), pref.getValue());
+            }
+        }
     }
 
-    public void saveTimeToPreference(String preferenceKey, LocalTime time) {
+    public LocalTime getTimeFromPreference(String key) {
+        String val = mPreferences.getString(key, null);
+        return val == null ? null : LocalTime.parse(val);
+    }
+
+    public void saveTimeToPreference(String key, LocalTime time) {
         mPreferences.edit()
-                .putString(preferenceKey, time.toString(DateTimeFormat.shortTime()))
+                .putString(key, time.toString())
                 .apply();
     }
 }

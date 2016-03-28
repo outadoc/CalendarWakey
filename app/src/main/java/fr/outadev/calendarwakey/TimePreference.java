@@ -46,7 +46,7 @@ public class TimePreference extends DialogPreference {
 
         if (positiveResult) {
             lastTime = new LocalTime(picker.getCurrentHour(), picker.getCurrentMinute());
-            String time = lastTime.toString(DateTimeFormat.shortTime());
+            String time = lastTime.toString();
 
             if (callChangeListener(time)) {
                 persistString(time);
@@ -65,7 +65,7 @@ public class TimePreference extends DialogPreference {
 
         if (restoreValue) {
             if (defaultValue == null) {
-                time = getPersistedString("00:00");
+                time = getPersistedString("00:00:00.000");
             } else {
                 time = getPersistedString(defaultValue.toString());
             }
