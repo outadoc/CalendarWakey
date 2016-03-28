@@ -34,6 +34,7 @@ public class ConfigurationManager implements Serializable {
     public static final String PREF_MIN_WAKEUP_TIME = "pref_min_wakeup_time";
     public static final String PREF_MAX_WAKEUP_TIME = "pref_max_wakeup_time";
 
+    public static final String PREF_ENABLED_GLOBAL = "pref_enabled_global";
     public static final String PREF_ENABLED_WEEK_DAYS = "pref_enabled_week_days";
 
     public static final String[] TIME_PREFERENCES = new String[]{PREF_ALARM_SETTING_TIME, PREF_MIN_WAKEUP_TIME, PREF_MAX_WAKEUP_TIME};
@@ -49,6 +50,10 @@ public class ConfigurationManager implements Serializable {
     public ConfigurationManager(Context context) {
         mContext = context;
         mPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+    }
+
+    public boolean isAppEnabled() {
+        return mPreferences.getBoolean(PREF_ENABLED_GLOBAL, false);
     }
 
     public LocalTime getMinWakeUpTime() {

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="pref_enabled_global"
+        android:title="Enable application"/>
+
     <fr.outadev.calendarwakey.TimePreference
         android:key="pref_alarm_setting_time"
         android:title="Alarm setting time"/>
