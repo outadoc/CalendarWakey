@@ -1,8 +1,10 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
-                  xmlns:android="http://schemas.android.com/apk/res/android">
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<Preference
-		app:title="Test"
-		android:key="pref_test" />
+    <EditTextPreference
+        android:numeric="integer"
+        android:key="pref_alarm_setting_time"
+        android:title="Alarm setting time"
+        android:defaultValue="75600000"/>
 
 </PreferenceScreen>

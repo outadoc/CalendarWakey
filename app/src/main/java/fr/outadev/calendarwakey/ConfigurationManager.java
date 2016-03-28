@@ -1,11 +1,15 @@
 package fr.outadev.calendarwakey;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.Preference;
+import android.support.v7.preference.PreferenceManager;
 
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Duration;
 import org.joda.time.LocalTime;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -13,12 +17,14 @@ import java.util.List;
 /**
  * Created by outadoc on 2016-03-09.
  */
-public class ConfigurationManager {
+public class ConfigurationManager implements Serializable {
 
     private final Context mContext;
+    private final SharedPreferences mPreferences;
 
     public ConfigurationManager(Context context) {
         mContext = context;
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
     }
 
     public LocalTime getMinWakeUpTime() {
@@ -50,5 +56,13 @@ public class ConfigurationManager {
         days.add(DateTimeConstants.FRIDAY);
 
         return days;
+    }
+
+    public LocalTime getTimeFromPreference(String key) {
+        return LocalTime.fromMillisOfDay(mPreferences.getLong(key, 0));
+    }
+
+    public void saveTimeToPreference(String preferenceKey, LocalTime time) {
+        mPreferences.edit().putLong(preferenceKey, time.getMillisOfDay()).apply();
     }
 }
