@@ -19,6 +19,8 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        PreferenceManager.setDefaultValues(this, R.xml.pref_general, true);
+
         ConfigurationManager config = new ConfigurationManager(this);
         config.setDefaultValues();
 

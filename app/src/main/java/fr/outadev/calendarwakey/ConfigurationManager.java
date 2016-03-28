@@ -3,6 +3,7 @@ package fr.outadev.calendarwakey;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Duration;
@@ -14,13 +15,17 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by outadoc on 2016-03-09.
  */
 public class ConfigurationManager implements Serializable {
+
+    private static final String TAG = ConfigurationManager.class.getSimpleName();
 
     private final Context mContext;
     private final SharedPreferences mPreferences;
@@ -28,6 +33,8 @@ public class ConfigurationManager implements Serializable {
     public static final String PREF_ALARM_SETTING_TIME = "pref_alarm_setting_time";
     public static final String PREF_MIN_WAKEUP_TIME = "pref_min_wakeup_time";
     public static final String PREF_MAX_WAKEUP_TIME = "pref_max_wakeup_time";
+
+    public static final String PREF_ENABLED_WEEK_DAYS = "pref_enabled_week_days";
 
     public static final String[] TIME_PREFERENCES = new String[]{PREF_ALARM_SETTING_TIME, PREF_MIN_WAKEUP_TIME, PREF_MAX_WAKEUP_TIME};
 
@@ -61,16 +68,32 @@ public class ConfigurationManager implements Serializable {
         return getTimeFromPreference(PREF_ALARM_SETTING_TIME);
     }
 
-    public Collection<Integer> getEnabledWeekDays() {
-        List<Integer> days = new ArrayList<>();
+    public Set<Integer> getEnabledWeekDays() {
+        Set<String> weekDaysPref = mPreferences.getStringSet(PREF_ENABLED_WEEK_DAYS, null);
+        Set<Integer> enabledDays = new HashSet<>();
 
-        days.add(DateTimeConstants.MONDAY);
-        days.add(DateTimeConstants.TUESDAY);
-        days.add(DateTimeConstants.WEDNESDAY);
-        days.add(DateTimeConstants.THURSDAY);
-        days.add(DateTimeConstants.FRIDAY);
+        if (weekDaysPref == null) return enabledDays;
 
-        return days;
+        for (String dayIndex : weekDaysPref) {
+            try {
+                int day = Integer.parseInt(dayIndex);
+
+                if (day < 1 || day > 7) {
+                    Log.e(TAG, day + " is not a valid week day");
+                    break;
+                }
+
+                enabledDays.add(day);
+            } catch (NumberFormatException e) {
+                Log.e(TAG, dayIndex + " is not a valid week day");
+            }
+        }
+
+        if (enabledDays.size() > 7) {
+            Log.wtf(TAG, "wat");
+        }
+
+        return enabledDays;
     }
 
     public void setDefaultValues() {

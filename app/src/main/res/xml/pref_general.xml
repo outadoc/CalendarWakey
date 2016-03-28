@@ -13,4 +13,11 @@
         android:key="pref_max_wakeup_time"
         android:title="Maximum wake up time"/>
 
+    <MultiSelectListPreference
+        android:defaultValue="@array/default_days_of_week"
+        android:entries="@array/days_of_week"
+        android:entryValues="@array/days_of_week_keys"
+        android:key="pref_enabled_week_days"
+        android:title="Enabled week days"/>
+
 </PreferenceScreen>
