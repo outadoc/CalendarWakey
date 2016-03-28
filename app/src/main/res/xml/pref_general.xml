@@ -22,7 +22,8 @@
         android:defaultValue="60"
         android:key="pref_post_wakeup_free_time"
         android:numeric="integer"
-        android:title="Time between alarm and first event"/>
+        android:title="Time between alarm and first event"
+        android:dialogMessage="You will be woken up some time before the start of your actual first calendar event of the day.\nEnter the delay in minutes here."/>
 
     <MultiSelectListPreference
         android:defaultValue="@array/default_days_of_week"
