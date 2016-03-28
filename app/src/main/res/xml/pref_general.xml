@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="pref_enabled_global"
-        android:title="Enable application"/>
+    <PreferenceCategory android:title="Global">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_enabled_global"
+            android:title="Enable application"/>
+    </PreferenceCategory>
 
-    <fr.outadev.calendarwakey.TimePreference
-        android:key="pref_alarm_setting_time"
-        android:title="Alarm setting time"/>
+    <PreferenceCategory android:title="Alarm time settings">
+        <fr.outadev.calendarwakey.TimePreference
+            android:key="pref_alarm_setting_time"
+            android:title="Alarm setting time"/>
 
-    <fr.outadev.calendarwakey.TimePreference
-        android:key="pref_min_wakeup_time"
-        android:title="Minimum wake up time"/>
+        <fr.outadev.calendarwakey.TimePreference
+            android:key="pref_min_wakeup_time"
+            android:title="Minimum wake up time"/>
 
-    <fr.outadev.calendarwakey.TimePreference
-        android:key="pref_max_wakeup_time"
-        android:title="Maximum wake up time"/>
+        <fr.outadev.calendarwakey.TimePreference
+            android:key="pref_max_wakeup_time"
+            android:title="Maximum wake up time"/>
 
-    <EditTextPreference
-        android:defaultValue="60"
-        android:key="pref_post_wakeup_free_time"
-        android:numeric="integer"
-        android:title="Time between alarm and first event"
-        android:dialogMessage="You will be woken up some time before the start of your actual first calendar event of the day.\nEnter the delay in minutes here."/>
+        <EditTextPreference
+            android:defaultValue="60"
+            android:dialogMessage="You will be woken up some time before the start of your actual first calendar event of the day.\nEnter the delay in minutes here."
+            android:key="pref_post_wakeup_free_time"
+            android:numeric="integer"
+            android:title="Delay between alarm and first event"/>
 
-    <MultiSelectListPreference
-        android:defaultValue="@array/default_days_of_week"
-        android:entries="@array/days_of_week"
-        android:entryValues="@array/days_of_week_keys"
-        android:key="pref_enabled_week_days"
-        android:title="Enabled week days"/>
+        <MultiSelectListPreference
+            android:defaultValue="@array/default_days_of_week"
+            android:entries="@array/days_of_week"
+            android:entryValues="@array/days_of_week_keys"
+            android:key="pref_enabled_week_days"
+            android:title="Enabled week days"/>
+    </PreferenceCategory>
 
 </PreferenceScreen>
