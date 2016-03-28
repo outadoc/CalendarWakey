@@ -1,5 +1,6 @@
 package fr.outadev.calendarwakey;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -9,7 +10,7 @@ import org.joda.time.format.DateTimeFormat;
 /**
  * Created by outadoc on 2016-03-10.
  */
-public class PrefsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
+public class PrefsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static final String TAG = PrefsFragment.class.getName();
 
@@ -28,22 +29,28 @@ public class PrefsFragment extends PreferenceFragment implements Preference.OnPr
     }
 
     @Override
-    public boolean onPreferenceChange(Preference preference, Object o) {
-        for (String key : ConfigurationManager.TIME_PREFERENCES) {
-            if (key.equals(preference.getKey())) {
-                preference.setSummary((String)o);
-                break;
-            }
-        }
-
-        return true;
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        ApplyNextAlarmReceiver.enable(getActivity());
     }
 
     private void setupListeners() {
         for (String key : ConfigurationManager.TIME_PREFERENCES) {
             Preference pref = findPreference(key);
-            pref.setOnPreferenceChangeListener(this);
+            pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    if (preference instanceof TimePreference) {
+                        preference.setSummary((String) o);
+                    }
+
+                    return true;
+                }
+
+            });
         }
+
+        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
     private void buildSummaries() {
@@ -56,5 +63,4 @@ public class PrefsFragment extends PreferenceFragment implements Preference.OnPr
     public static PrefsFragment newInstance() {
         return new PrefsFragment();
     }
-
 }

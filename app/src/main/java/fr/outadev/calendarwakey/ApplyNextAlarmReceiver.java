@@ -38,9 +38,15 @@ public class ApplyNextAlarmReceiver extends BroadcastReceiver {
 
     static void enable(Context context) {
         disable(context);
-        Log.d(TAG, "enabling " + ApplyNextAlarmReceiver.class.getSimpleName());
 
         ConfigurationManager conf = new ConfigurationManager(context);
+
+        if (!conf.isAppEnabled()) {
+            Log.i(TAG, "app is disabled in preferences, not enabling receiver");
+            return;
+        }
+
+        Log.i(TAG, "enabling " + ApplyNextAlarmReceiver.class.getSimpleName());
         LocalDate receiverStartDate = LocalDate.now();
 
         if (conf.getAlarmSettingTime().isBefore(LocalTime.now())) {
@@ -57,7 +63,7 @@ public class ApplyNextAlarmReceiver extends BroadcastReceiver {
     }
 
     static void disable(Context context) {
-        Log.d(TAG, "disabling " + ApplyNextAlarmReceiver.class.getSimpleName());
+        Log.i(TAG, "disabling " + ApplyNextAlarmReceiver.class.getSimpleName());
 
         AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmMgr.cancel(getBroadcast(context));
