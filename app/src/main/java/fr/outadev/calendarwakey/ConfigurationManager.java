@@ -33,6 +33,7 @@ public class ConfigurationManager implements Serializable {
     public static final String PREF_ALARM_SETTING_TIME = "pref_alarm_setting_time";
     public static final String PREF_MIN_WAKEUP_TIME = "pref_min_wakeup_time";
     public static final String PREF_MAX_WAKEUP_TIME = "pref_max_wakeup_time";
+    public static final String PREF_POST_WAKEUP_FREE_TIME = "pref_post_wakeup_free_time";
 
     public static final String PREF_ENABLED_GLOBAL = "pref_enabled_global";
     public static final String PREF_ENABLED_WEEK_DAYS = "pref_enabled_week_days";
@@ -65,8 +66,8 @@ public class ConfigurationManager implements Serializable {
     }
 
     public Duration getPostWakeFreeTime() {
-        // 1h45
-        return new Duration(1000 * 60 * 105);
+        String prefTime = mPreferences.getString(PREF_POST_WAKEUP_FREE_TIME, "60");
+        return new Duration(1000 * 60 * Integer.parseInt(prefTime));
     }
 
     public LocalTime getAlarmSettingTime() {

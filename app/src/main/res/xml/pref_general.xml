@@ -18,6 +18,12 @@
         android:key="pref_max_wakeup_time"
         android:title="Maximum wake up time"/>
 
+    <EditTextPreference
+        android:defaultValue="60"
+        android:key="pref_post_wakeup_free_time"
+        android:numeric="integer"
+        android:title="Time between alarm and first event"/>
+
     <MultiSelectListPreference
         android:defaultValue="@array/default_days_of_week"
         android:entries="@array/days_of_week"

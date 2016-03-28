@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 
+import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 
 /**
@@ -41,7 +42,7 @@ public class PrefsFragment extends PreferenceFragment implements SharedPreferenc
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     if (preference instanceof TimePreference) {
-                        preference.setSummary((String) o);
+                        preference.setSummary(LocalTime.parse((String) o).toString(DateTimeFormat.shortTime()));
                     }
 
                     return true;
