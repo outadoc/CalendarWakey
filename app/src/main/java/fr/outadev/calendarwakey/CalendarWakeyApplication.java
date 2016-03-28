@@ -1,7 +1,7 @@
 package fr.outadev.calendarwakey;
 
 import android.app.Application;
-import android.support.v7.preference.PreferenceManager;
+import android.preference.PreferenceManager;
 
 /**
  * Created by outadoc on 2016-03-28.

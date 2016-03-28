@@ -2,12 +2,12 @@ package fr.outadev.calendarwakey;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.Preference;
-import android.support.v7.preference.PreferenceManager;
+import android.preference.PreferenceManager;
 
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Duration;
 import org.joda.time.LocalTime;
+import org.joda.time.format.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class ConfigurationManager implements Serializable {
 
     public LocalTime getAlarmSettingTime() {
         // 22:00
-        return new LocalTime(20, 0);
+        return getTimeFromPreference("pref_alarm_setting_time");
     }
 
     public Collection<Integer> getEnabledWeekDays() {
@@ -59,10 +59,12 @@ public class ConfigurationManager implements Serializable {
     }
 
     public LocalTime getTimeFromPreference(String key) {
-        return LocalTime.fromMillisOfDay(mPreferences.getLong(key, 0));
+        return LocalTime.parse(mPreferences.getString(key, null));
     }
 
     public void saveTimeToPreference(String preferenceKey, LocalTime time) {
-        mPreferences.edit().putLong(preferenceKey, time.getMillisOfDay()).apply();
+        mPreferences.edit()
+                .putString(preferenceKey, time.toString(DateTimeFormat.shortTime()))
+                .apply();
     }
 }

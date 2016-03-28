@@ -1,28 +1,20 @@
 package fr.outadev.calendarwakey;
 
-import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceFragmentCompat;
-import android.text.format.DateFormat;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TimePicker;
+import android.preference.Preference;
+import android.preference.PreferenceFragment;
 
-import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 
 /**
  * Created by outadoc on 2016-03-10.
  */
-public class PrefsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener {
+public class PrefsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
 
     public static final String TAG = PrefsFragment.class.getName();
-    public static final String KEY_CONFIG = "config";
+    private static final String[] timePreferences = new String[]{"pref_alarm_setting_time"};
 
     private ConfigurationManager mConfig;
-    private Preference prefAlarmSetting;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,53 +24,34 @@ public class PrefsFragment extends PreferenceFragmentCompat implements Preferenc
         addPreferencesFromResource(R.xml.pref_general);
         mConfig = new ConfigurationManager(getActivity());
 
-        prefAlarmSetting = findPreference("pref_alarm_setting_time");
-
-        prefAlarmSetting.setOnPreferenceChangeListener(this);
-        prefAlarmSetting.setOnPreferenceClickListener(this);
-    }
-
-    @Override
-    public void onCreatePreferences(Bundle bundle, String s) {
+        setupListeners();
+        buildSummaries();
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
-        switch (preference.getKey()) {
-            case "pref_alarm_setting_time":
-                updatePostChange();
-                return true;
-        }
-
-        return false;
-    }
-
-    private void updatePostChange() {
-        prefAlarmSetting.setSummary(mConfig.getAlarmSettingTime().toString(DateTimeFormat.shortTime()));
-    }
-
-    @Override
-    public boolean onPreferenceClick(Preference preference) {
-        switch (preference.getKey()) {
-            case "pref_alarm_setting_time":
-                selectTime(preference.getKey());
-                return true;
-        }
-
-        return false;
-    }
-
-    private void selectTime(final String preferenceKey) {
-        LocalTime current = mConfig.getTimeFromPreference(preferenceKey);
-        TimePickerDialog dialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                LocalTime newTime = new LocalTime(hourOfDay, minute);
-                mConfig.saveTimeToPreference(preferenceKey, newTime);
+        for (String key : timePreferences) {
+            if (key.equals(preference.getKey())) {
+                preference.setSummary((String)o);
+                break;
             }
-        }, current.getHourOfDay(), current.getMinuteOfHour(), DateFormat.is24HourFormat(getActivity()));
+        }
 
-        dialog.show();
+        return true;
+    }
+
+    private void setupListeners() {
+        for (String key : timePreferences) {
+            Preference pref = findPreference(key);
+            pref.setOnPreferenceChangeListener(this);
+        }
+    }
+
+    private void buildSummaries() {
+        for (String key : timePreferences) {
+            Preference pref = findPreference(key);
+            pref.setSummary(mConfig.getTimeFromPreference(key).toString(DateTimeFormat.shortTime()));
+        }
     }
 
     public static PrefsFragment newInstance() {
