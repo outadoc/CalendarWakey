@@ -10,7 +10,7 @@
         <item>@string/day_sunday</item>
     </string-array>
 
-    <string-array name="days_of_week_keys">
+    <string-array name="days_of_week_keys" translatable="false">
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -20,7 +20,7 @@
         <item>7</item>
     </string-array>
 
-    <string-array name="default_days_of_week">
+    <string-array name="default_days_of_week" translatable="false">
         <item>1</item>
         <item>2</item>
         <item>3</item>
