@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="Global">
+    <PreferenceCategory android:title="@string/pref_cat_global">
         <SwitchPreference
             android:defaultValue="false"
             android:key="pref_enabled_global"
-            android:title="Enable application"/>
+            android:title="@string/pref_title_enabled_global"/>
 
         <ListPreference
             android:key="pref_alarm_app"
-            android:title="Alarm app to wake you up with"/>
+            android:title="@string/pref_title_alarm_app"/>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Alarm time settings">
+    <PreferenceCategory android:title="@string/pref_cat_times">
         <fr.outadev.calendarwakey.TimePreference
             android:key="pref_alarm_setting_time"
-            android:title="Alarm setting time"/>
+            android:title="@string/pref_title_alarm_setting_time"/>
 
         <fr.outadev.calendarwakey.TimePreference
             android:key="pref_min_wakeup_time"
-            android:title="Minimum wake up time"/>
+            android:title="@string/pref_title_min_wakeup_time"/>
 
         <fr.outadev.calendarwakey.TimePreference
             android:key="pref_max_wakeup_time"
-            android:title="Maximum wake up time"/>
+            android:title="@string/pref_title_max_wakeup_time"/>
 
         <EditTextPreference
             android:defaultValue="60"
-            android:dialogMessage="You will be woken up some time before the start of your actual first calendar event of the day.\nEnter the delay in minutes here."
+            android:dialogMessage="@string/pref_message_post_wakeup_free_time"
             android:key="pref_post_wakeup_free_time"
             android:numeric="integer"
-            android:title="Delay between alarm and first event"/>
+            android:title="@string/pref_title_post_wakeup_free_time"/>
 
         <MultiSelectListPreference
             android:defaultValue="@array/default_days_of_week"
             android:entries="@array/days_of_week"
             android:entryValues="@array/days_of_week_keys"
             android:key="pref_enabled_week_days"
-            android:title="Enabled week days"/>
+            android:title="@string/pref_title_enabled_week_days"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -40,9 +40,8 @@ public class SettingsActivity extends AppCompatActivity {
         if (requestCode == CALENDAR_ACCESS_PERM_REQUEST_CODE) {
             if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 (new AlertDialog.Builder(this))
-                        .setTitle("Permission needed")
-                        .setMessage("We need your permission to access your calendar so that we can set your alarm " +
-                                "automatically.")
+                        .setTitle(R.string.permission_cal_denied_title)
+                        .setMessage(R.string.permission_cal_denied_message)
                         .create()
                         .show();
             }

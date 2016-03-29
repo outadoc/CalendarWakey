@@ -103,45 +103,46 @@ public class ApplyNextAlarmReceiver extends BroadcastReceiver {
     }
 
     public void notifyNoAlarm(Context context) {
-        Log.e(TAG, "Nothing seems to be planned for tomorrow");
+        Log.i(TAG, "nothing seems to be planned for tomorrow");
     }
 
     public void notifyError(Context context, AlarmEvent event, Exception e) {
-        Log.e(TAG, "An error occurred while trying to set the alarm for " + event.getStartTime());
+        Log.e(TAG, "an error occurred while trying to set the alarm for " + event.getStartTime());
         e.printStackTrace();
 
         NotificationManagerCompat
                 .from(context)
                 .notify(STATUS_NOTIFICATION_ID,
                         new NotificationCompat.Builder(context)
-                                .setContentTitle("Could not set alarm")
+                                .setContentTitle(context.getString(R.string.notif_error_title))
                                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                                 .setPriority(NotificationCompat.PRIORITY_MAX)
                                 .setSmallIcon(R.mipmap.ic_launcher)
                                 .setStyle(new NotificationCompat.BigTextStyle()
-                                                .bigText("Something happened and we could not set your alarm " +
-                                                        "for your event \"" + event.getName() + "\" scheduled for " +
-                                                        event.getStartTime().toLocalTime().toString(DateTimeFormat.shortTime()))
-                                ).build()
-                );
+                                        .bigText(context.getString(
+                                                R.string.notif_error_message,
+                                                event.getName(),
+                                                event.getStartTime().toLocalTime()
+                                                        .toString(DateTimeFormat.shortTime())))
+                                ).build());
     }
 
     public void notifySuccess(Context context, AlarmEvent event, DateTime wakeUpTime) {
         ConfigurationManager conf = new ConfigurationManager(context);
-        Log.i(TAG, "Successfully set alarm for " + event.getStartTime());
+        Log.i(TAG, "successfully set alarm for " + event.getStartTime());
 
         NotificationManagerCompat
                 .from(context)
                 .notify(STATUS_NOTIFICATION_ID,
                         new NotificationCompat.Builder(context)
-                                .setContentTitle("Waking up at " + wakeUpTime.toString(DateTimeFormat.shortTime()))
+                                .setContentTitle(context.getString(R.string.notif_success_title, wakeUpTime.toString(DateTimeFormat.shortTime())))
                                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                                 .setSmallIcon(R.mipmap.ic_launcher)
                                 .setStyle(new NotificationCompat.InboxStyle()
-                                                .addLine(event.getStartTime().toString(DateTimeFormat.shortTime()) + " - " + event.getName())
-                                                .addLine("Waking you up " + PeriodFormat.getDefault().print(conf.getPostWakeFreeTime().toPeriod()) + " before")
+                                        .addLine(context.getString(R.string.notif_success_message_event, event.getStartTime().toString(DateTimeFormat.shortTime()), event.getName()))
+                                        .addLine(context.getString(R.string.notif_success_message_delay, PeriodFormat.getDefault().print(conf.getPostWakeFreeTime().toPeriod())))
                                 ).build()
                 );
     }

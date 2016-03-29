@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string-array name="days_of_week">
-        <item>Monday</item>
-        <item>Tuesday</item>
-        <item>Wednesday</item>
-        <item>Thursday</item>
-        <item>Friday</item>
-        <item>Saturday</item>
-        <item>Sunday</item>
+        <item>@string/day_monday</item>
+        <item>@string/day_tuesday</item>
+        <item>@string/day_wednesday</item>
+        <item>@string/day_thursday</item>
+        <item>@string/day_friday</item>
+        <item>@string/day_saturday</item>
+        <item>@string/day_sunday</item>
     </string-array>
-    
+
     <string-array name="days_of_week_keys" translatable="false">
         <item>1</item>
         <item>2</item>
@@ -28,5 +27,4 @@
         <item>4</item>
         <item>5</item>
     </string-array>
-
 </resources>

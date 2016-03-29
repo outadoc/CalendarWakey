@@ -1,3 +1,31 @@
 <resources>
-	<string name="app_name">CalendarWakey</string>
+    <string name="app_name">Calendar Wakey</string>
+
+    <string name="pref_cat_global">Global</string>
+    <string name="pref_cat_times">Alarm time settings</string>
+    <string name="pref_title_enabled_global">Enable application</string>
+    <string name="pref_title_alarm_app">Alarm application</string>
+    <string name="pref_title_alarm_setting_time">Alarm setting time</string>
+    <string name="pref_title_min_wakeup_time">Don\'t wake me up before</string>
+    <string name="pref_title_max_wakeup_time">Don\'t wake me up after</string>
+    <string name="pref_title_post_wakeup_free_time">Delay between alarm and first event</string>
+    <string name="pref_message_post_wakeup_free_time">You will be woken up some time before the start of your actual first calendar event of the day.\nEnter the delay in minutes here.</string>
+    <string name="pref_title_enabled_week_days">Enabled week days</string>
+    <string name="permission_cal_denied_title">Permission needed</string>
+    <string name="permission_cal_denied_message">"We need your permission to access your calendar so that we can set your alarm automatically.</string>
+
+    <string name="day_monday">Monday</string>
+    <string name="day_tuesday">Tuesday</string>
+    <string name="day_wednesday">Wednesday</string>
+    <string name="day_thursday">Thursday</string>
+    <string name="day_friday">Friday</string>
+    <string name="day_saturday">Saturday</string>
+    <string name="day_sunday">Sunday</string>
+
+    <string name="notif_error_title">Could not set alarm</string>
+    <string name="notif_error_message">Something happened and we could not set your alarm for your event "%1$s" scheduled for %2$s</string>
+
+    <string name="notif_success_title">Waking up at %1$s</string>
+    <string name="notif_success_message_event">%1$s - %2$s</string>
+    <string name="notif_success_message_delay">Waking you up %1$s before</string>
 </resources>
