@@ -1,20 +1,20 @@
 package fr.outadev.calendarwakey;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.preference.PreferenceManager;
+import android.provider.AlarmClock;
 import android.util.Log;
 
-import org.joda.time.DateTimeConstants;
 import org.joda.time.Duration;
 import org.joda.time.LocalTime;
-import org.joda.time.format.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +37,7 @@ public class ConfigurationManager implements Serializable {
 
     public static final String PREF_ENABLED_GLOBAL = "pref_enabled_global";
     public static final String PREF_ENABLED_WEEK_DAYS = "pref_enabled_week_days";
+    public static final String PREF_ALARM_APP = "pref_alarm_app";
 
     public static final String[] TIME_PREFERENCES = new String[]{PREF_ALARM_SETTING_TIME, PREF_MIN_WAKEUP_TIME, PREF_MAX_WAKEUP_TIME};
 
@@ -102,10 +103,22 @@ public class ConfigurationManager implements Serializable {
         return enabledDays;
     }
 
+    public String getSelectedAlarmApp() {
+        return mPreferences.getString(PREF_ALARM_APP, null);
+    }
+
     public void setDefaultValues() {
         for (Map.Entry<String, LocalTime> pref : defaultTimes) {
             if (getTimeFromPreference(pref.getKey()) == null) {
                 saveTimeToPreference(pref.getKey(), pref.getValue());
+            }
+        }
+
+        if (getSelectedAlarmApp() == null) {
+            List<AlarmAppEntry> appsList = getAvailableAlarmApps(mContext.getPackageManager());
+
+            if (!appsList.isEmpty()) {
+                mPreferences.edit().putString(PREF_ALARM_APP, appsList.get(0).getPackageName().toString()).apply();
             }
         }
     }
@@ -113,6 +126,20 @@ public class ConfigurationManager implements Serializable {
     public LocalTime getTimeFromPreference(String key) {
         String val = mPreferences.getString(key, null);
         return val == null ? null : LocalTime.parse(val);
+    }
+
+    public List<AlarmAppEntry> getAvailableAlarmApps(PackageManager pm) {
+        // List all activities capable of setting an alarm
+        Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM);
+
+        List<ResolveInfo> supportedApps = pm.queryIntentActivities(intent, 0);
+        List<AlarmAppEntry> appsList = new ArrayList<>(supportedApps.size());
+
+        for (ResolveInfo resInfo : supportedApps) {
+            appsList.add(new AlarmAppEntry(resInfo.activityInfo.packageName, resInfo.activityInfo.loadLabel(pm)));
+        }
+
+        return appsList;
     }
 
     public void saveTimeToPreference(String key, LocalTime time) {

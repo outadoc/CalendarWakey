@@ -6,6 +6,10 @@
             android:defaultValue="false"
             android:key="pref_enabled_global"
             android:title="Enable application"/>
+
+        <ListPreference
+            android:key="pref_alarm_app"
+            android:title="Alarm app to wake you up with"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Alarm time settings">

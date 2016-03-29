@@ -3,12 +3,14 @@ package fr.outadev.calendarwakey;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
+import android.preference.ListPreference;
 import android.preference.MultiSelectListPreference;
 import android.preference.PreferenceFragment;
 
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.PeriodFormat;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -20,6 +22,10 @@ public class PrefsFragment extends PreferenceFragment implements SharedPreferenc
 
     private ConfigurationManager mConfig;
 
+    private MultiSelectListPreference daysPref;
+    private EditTextPreference delayPref;
+    private ListPreference alarmAppPref;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +33,13 @@ public class PrefsFragment extends PreferenceFragment implements SharedPreferenc
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.pref_general);
         mConfig = new ConfigurationManager(getActivity());
+
+        daysPref = (MultiSelectListPreference) findPreference(ConfigurationManager.PREF_ENABLED_WEEK_DAYS);
+        delayPref = (EditTextPreference) findPreference(ConfigurationManager.PREF_POST_WAKEUP_FREE_TIME);
+        alarmAppPref = (ListPreference) findPreference(ConfigurationManager.PREF_ALARM_APP);
+
+
+        loadAlarmAppsList();
 
         setupListeners();
         buildSummaries();
@@ -45,10 +58,13 @@ public class PrefsFragment extends PreferenceFragment implements SharedPreferenc
                 updateTimePreferenceSummary((TimePreference) findPreference(key));
                 break;
             case ConfigurationManager.PREF_ENABLED_WEEK_DAYS:
-                updateDaysPreferenceSummary((MultiSelectListPreference) findPreference(key));
+                updateDaysPreferenceSummary(daysPref);
                 break;
             case ConfigurationManager.PREF_POST_WAKEUP_FREE_TIME:
-                updateDurationPreferenceSummary((EditTextPreference) findPreference(key));
+                updateDurationPreferenceSummary(delayPref);
+                break;
+            case ConfigurationManager.PREF_ALARM_APP:
+                updateListPreferenceSummary(alarmAppPref);
                 break;
         }
     }
@@ -60,9 +76,11 @@ public class PrefsFragment extends PreferenceFragment implements SharedPreferenc
     private void buildSummaries() {
         MultiSelectListPreference daysPref = (MultiSelectListPreference) findPreference(ConfigurationManager.PREF_ENABLED_WEEK_DAYS);
         EditTextPreference delayPref = (EditTextPreference) findPreference(ConfigurationManager.PREF_POST_WAKEUP_FREE_TIME);
+        ListPreference alarmAppPref = (ListPreference) findPreference(ConfigurationManager.PREF_ALARM_APP);
 
         updateDaysPreferenceSummary(daysPref);
         updateDurationPreferenceSummary(delayPref);
+        updateListPreferenceSummary(alarmAppPref);
 
         for (String key : ConfigurationManager.TIME_PREFERENCES) {
             updateTimePreferenceSummary((TimePreference) findPreference(key));
@@ -90,9 +108,32 @@ public class PrefsFragment extends PreferenceFragment implements SharedPreferenc
         pref.setSummary(builder.toString());
     }
 
+    private void updateListPreferenceSummary(ListPreference pref) {
+        pref.setSummary(pref.getEntry());
+    }
+
     private void updateDurationPreferenceSummary(EditTextPreference pref) {
         String str = PeriodFormat.getDefault().print(mConfig.getPostWakeFreeTime().toPeriod());
         pref.setSummary(str);
+    }
+
+    private void loadAlarmAppsList() {
+        List<AlarmAppEntry> appsList = mConfig.getAvailableAlarmApps(getActivity().getPackageManager());
+
+        CharSequence[] appDisplaySet = new String[appsList.size()];
+        CharSequence[] appValuesSet = new String[appsList.size()];
+
+        int i = 0;
+
+        for (AlarmAppEntry app : appsList) {
+            appDisplaySet[i] = app.getAppName();
+            appValuesSet[i] = app.getPackageName();
+            i++;
+        }
+
+        ListPreference prefAlarmApp = (ListPreference) findPreference(ConfigurationManager.PREF_ALARM_APP);
+        prefAlarmApp.setEntries(appDisplaySet);
+        prefAlarmApp.setEntryValues(appValuesSet);
     }
 
     public static PrefsFragment newInstance() {
