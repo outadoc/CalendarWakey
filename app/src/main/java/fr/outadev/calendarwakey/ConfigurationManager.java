@@ -114,11 +114,14 @@ public class ConfigurationManager implements Serializable {
             }
         }
 
+        // Set default alarm app to be the first of the list
         if (getSelectedAlarmApp() == null) {
             List<AlarmAppEntry> appsList = getAvailableAlarmApps(mContext.getPackageManager());
 
             if (!appsList.isEmpty()) {
-                mPreferences.edit().putString(PREF_ALARM_APP, appsList.get(0).getPackageName().toString()).apply();
+                mPreferences.edit()
+                        .putString(PREF_ALARM_APP, appsList.get(0).getPackageName().toString())
+                        .apply();
             }
         }
     }

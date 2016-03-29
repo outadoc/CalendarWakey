@@ -6,17 +6,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.AlarmClock;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.PeriodFormat;
 
 import java.util.Collection;
@@ -89,7 +87,9 @@ public class ApplyNextAlarmReceiver extends BroadcastReceiver {
             DateTime wakeUpTime = event.getStartTime().minus(conf.getPostWakeFreeTime()).withZone(DateTimeZone.getDefault());
 
             Intent i = new Intent(AlarmClock.ACTION_SET_ALARM);
+            i.setPackage(conf.getSelectedAlarmApp());
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
             i.putExtra(AlarmClock.EXTRA_MESSAGE, event.getName() + " (" + event.getCalendarName() + ")");
             i.putExtra(AlarmClock.EXTRA_HOUR, wakeUpTime.getHourOfDay());
             i.putExtra(AlarmClock.EXTRA_MINUTES, wakeUpTime.getMinuteOfHour());
