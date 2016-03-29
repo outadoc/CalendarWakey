@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Calendar Wakey</string>
+    <string name="app_name" translatable="false">Calendar Wakey</string>
 
     <string name="pref_cat_global">Global</string>
     <string name="pref_cat_times">Alarm time settings</string>
@@ -12,7 +13,7 @@
     <string name="pref_message_post_wakeup_free_time">You will be woken up some time before the start of your actual first calendar event of the day.\nEnter the delay in minutes here.</string>
     <string name="pref_title_enabled_week_days">Enabled week days</string>
     <string name="permission_cal_denied_title">Permission needed</string>
-    <string name="permission_cal_denied_message">"We need your permission to access your calendar so that we can set your alarm automatically.</string>
+    <string name="permission_cal_denied_message">We need your permission to access your calendar so that we can set your alarm automatically.</string>
 
     <string name="day_monday">Monday</string>
     <string name="day_tuesday">Tuesday</string>

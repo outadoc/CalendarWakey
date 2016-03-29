@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_cat_global">Global</string>
+    <string name="pref_title_enabled_global">Activer l\'application</string>
+    <string name="pref_title_alarm_app">Application de réveil</string>
+    <string name="pref_title_alarm_setting_time">Heure de programmation </string>
+    <string name="pref_title_min_wakeup_time">Ne pas me réveiller avant</string>
+    <string name="pref_title_max_wakeup_time">Ne pas me réveiller après</string>
+    <string name="pref_title_post_wakeup_free_time">Délai entre réveil et premier évènement</string>
+    <string name="pref_message_post_wakeup_free_time">Vous serez réveillé(e) un certain temps avant le début du premier évènement de votre calendrier.\nEntrez ici ce délai en minutes.</string>
+    <string name="pref_title_enabled_week_days">Jours de la semaine activés</string>
+    <string name="permission_cal_denied_title">Permission requise</string>
+
+    <string name="day_monday">Lundi</string>
+    <string name="day_tuesday">Mardi</string>
+    <string name="day_wednesday">Mercredi</string>
+    <string name="day_thursday">Jeudi</string>
+    <string name="day_friday">Vendredi</string>
+    <string name="day_saturday">Samedi</string>
+    <string name="day_sunday">Dimanche</string>
+
+    <string name="notif_error_message">Une erreur est survenue et votre réveil pour "%1$s" à %2$s n\'a pas pu être programmé</string>
+
+    <string name="notif_success_title">Réveil à %1$s</string>
+    <string name="notif_success_message_event">%1$s - %2$s</string>
+    <string name="notif_success_message_delay">Réveil %1$s avant</string>
+    <string name="notif_error_title">Échec de la prog. du réveil</string>
+    <string name="permission_cal_denied_message">Nous avons besoin de votre autorisation pour accéder à votre calendrier afin de programmer votre réveil automatiquement.</string>
+    <string name="pref_cat_times">Réglages horaires</string>
+</resources>
