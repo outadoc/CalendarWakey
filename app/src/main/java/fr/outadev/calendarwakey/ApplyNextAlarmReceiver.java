@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.provider.AlarmClock;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -118,7 +119,8 @@ public class ApplyNextAlarmReceiver extends BroadcastReceiver {
                                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                                 .setPriority(NotificationCompat.PRIORITY_MAX)
-                                .setSmallIcon(R.mipmap.ic_launcher)
+                                .setSmallIcon(R.drawable.notif_icon)
+                                .setColor(context.getResources().getColor(R.color.icon_color))
                                 .setStyle(new NotificationCompat.BigTextStyle()
                                         .bigText(context.getString(
                                                 R.string.notif_error_message,
@@ -139,7 +141,8 @@ public class ApplyNextAlarmReceiver extends BroadcastReceiver {
                                 .setContentTitle(context.getString(R.string.notif_success_title, wakeUpTime.toString(DateTimeFormat.shortTime())))
                                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                                .setSmallIcon(R.mipmap.ic_launcher)
+                                .setSmallIcon(R.drawable.notif_icon)
+                                .setColor(context.getResources().getColor(R.color.icon_color))
                                 .setStyle(new NotificationCompat.InboxStyle()
                                         .addLine(context.getString(R.string.notif_success_message_event, event.getStartTime().toString(DateTimeFormat.shortTime()), event.getName()))
                                         .addLine(context.getString(R.string.notif_success_message_delay, PeriodFormat.getDefault().print(conf.getPostWakeFreeTime().toPeriod())))
